@@ -1,0 +1,8 @@
+---
+- name: destroy droplet
+  digital_ocean_droplet:
+    state: absent
+  args: "{{ droplet }}"
+  connection: local
+  tags:
+    - destroy

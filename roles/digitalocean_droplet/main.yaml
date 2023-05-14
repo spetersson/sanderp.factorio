@@ -1,0 +1,8 @@
+---
+- include_tasks: deploy_droplet.yaml
+  tags:
+    - deploy
+
+- include_tasks: destroy_droplet.yaml
+  tags:
+    - destroy
