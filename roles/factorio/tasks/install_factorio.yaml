@@ -1,0 +1,85 @@
+---
+- name: Install block
+  block:
+    - name: update apt cache
+      apt:
+        update_cache: True
+      tags:
+        - install
+    - name: install apt packages
+      apt:
+        name:
+          - htop
+          - btop
+          - xz-utils
+          - rsync
+        state: present
+      tags:
+        - install
+    - name: setup factorio user
+      user:
+        name: "{{ factorio_user }}"
+        shell: /bin/bash
+        create_home: True
+        state: present
+      tags:
+        - install
+    - name: generate systemd file for factorio
+      template:
+        src: systemd/factorio.service.j2
+        dest: /etc/systemd/system/factorio.service
+        owner: root
+        group: root
+        mode: 0644
+      tags:
+        - install
+      notify:
+        - systemd reload
+        - factorio restart
+    - name: download factorio headless server
+      get_url:
+        url: "{{ factorio_headless_server }}"
+        dest: "/home/{{ factorio_user }}/factorio_headless.tar.xz"
+      tags:
+        - install
+        - factorio
+    - name: uncompress factorio server file
+      unarchive:
+        remote_src: True
+        src: "/home/{{ factorio_user }}/factorio_headless.tar.xz"
+        dest: "/home/{{ factorio_user }}"
+        creates: "{{ factorio_root }}"
+      tags:
+        - install
+        - factorio
+    - name: copy factorio save file to host
+      copy:
+        src: "{{ factorio_save_location }}"
+        dest: "{{ factorio_root }}"
+      tags:
+        - install
+        - factorio
+      when: factorio_save_location is defined
+      notify:
+        - factorio restart
+    - name: generate factorio config.ini
+      copy:
+        dest: "{{ factorio_server_settings_file }}"
+        content: "{{ factorio_server_settings }}"
+      tags:
+        - install
+        - factorio
+      notify:
+        - factorio restart
+    - name: ensure that permissions are correct
+      file:
+        path: "{{ factorio_root }}"
+        state: directory
+        owner: "{{ factorio_user }}"
+        group: "{{ factorio_user }}"
+        recurse: True
+      tags:
+        - install
+        - factorio
+  tags:
+    - never

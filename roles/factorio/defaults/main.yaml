@@ -1,0 +1,25 @@
+---
+factorio_user: factorio
+#factorio_save: "sander-server-do.zip"
+factorio_headless_server: "https://factorio.com/get-download/stable/headless/linux64"
+factorio_save_location: "~/.factorio/saves/{{ factorio_save }}"
+factorio_root: "/home/{{ factorio_user }}/factorio"
+factorio_server_config: "{{ factorio_root }}/config/config.ini"
+factorio_server_password: lol
+factorio_server_settings_file: "{{ factorio_root }}/data/server-settings.json"
+factorio_server_settings:
+  name: "Sanderp's server"
+  description: "Server for Sanderp and his very few friends that's stuck on a remote planet far away from earth."
+  game_password: lol
+  visibility:
+    public: False
+    lan: False
+  require_user_validation: True
+  max_players: 10
+  auto_pause: True
+  only_admins_can_pause_the_game: True
+  autosave_only_on_server: True
+  allow_commands: "admins-only"
+  autosave_interval: 10
+  autosave_slots: 5
+  afk_autokick_interval: 5

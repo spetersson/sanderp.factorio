@@ -1,0 +1,13 @@
+[Unit]
+Descritpion=Factorio Headless Server
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+Type=simple
+User={{ factorio_user }}
+ExecStart={{ factorio_root }}/bin/x64/factorio --start-server {{ factorio_root }}/{{ factorio_save }} --console-log {{ factorio_root }}/console.log --server-settings {{ factorio_server_settings_file }}
+
+[Install]
+WantedBy=multi-user.target
