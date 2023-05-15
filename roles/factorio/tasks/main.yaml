@@ -1,0 +1,8 @@
+---
+- include_tasks: install_factorio.yaml
+  tags:
+    - install
+
+- include_tasks: stop_factorio.yaml
+  tags:
+    - stop

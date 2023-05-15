@@ -1,0 +1,19 @@
+---
+- name: Take down server block
+  block:
+    - name: Shut down factorio server
+      service:
+        name: factorio
+        state: stopped
+      tags:
+        - stop
+    - name: Download save from server
+      fetch:
+        src: "{{ factorio_root }}/{{ factorio_save }}"
+        dest: "{{ factorio_save_location }}"
+        flat: True
+      tags:
+        - stop
+  tags:
+    - stop
+    - never
