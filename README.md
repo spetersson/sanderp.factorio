@@ -1,3 +1,3 @@
-# Ansible Collection - sanderp.infra
+# Ansible Collection - sanderp.factorio
 
 Documentation for the collection.
