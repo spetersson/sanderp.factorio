@@ -1,11 +1,11 @@
 ---
-- name: Take down server block
+- name: Start server block
   block:
     - name: start factorio server
       service:
         name: factorio
         state: started
-        tags:
+      tags:
         - start
   tags:
     - start
